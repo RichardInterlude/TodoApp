@@ -15,7 +15,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['https://todoapp-bg18.onrender.com','http://todoapp-bg18.onrender.com','todoapp-bg18.onrender.com']
 
 # Application definition
 

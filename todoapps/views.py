@@ -7,7 +7,7 @@ from . serializers import TodoSerializers
 
 # Create your views here.
 class TodoView(APIView):
-    def get(self,Request):
+    def get(self,request):
         try:
             todo = Todo.objects.all()
             serializers = TodoSerializers(todo, many=True)
@@ -15,9 +15,9 @@ class TodoView(APIView):
         except Exception as e:
             return Response({'Error':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
-    def post(self,Request):
+    def post(self,request):
         try:
-            serializers = TodoSerializers(data = Request.data)
+            serializers = TodoSerializers(data = request.data)
             if serializers.is_valid():
                 serializers.save()
                 return Response({'message':'Task created successfully'}, status=status.HTTP_201_CREATED)
@@ -28,7 +28,7 @@ class TodoView(APIView):
 
 class TodoDetail(APIView):
 
-    def get(self, Request):
+    def get(request,self,id):
         try:
             todo = Todo.objects.get(id=id)
             serializers = TodoSerializers(todo)
@@ -38,7 +38,7 @@ class TodoDetail(APIView):
             return Response({'Error':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
 
-    def put(self, Request):
+    def put(self,request,id):
         try:
             todo = Todo.objects.get(id=id)
             serializers = TodoSerializers(todo)
@@ -52,7 +52,7 @@ class TodoDetail(APIView):
 
 
 
-    def delete(self, Request):
+    def delete(self, request, id):
         try:
             todo = Todo.objects.get(id=id)
             del todo
