@@ -4,6 +4,7 @@ from rest_framework import status, serializers
 
 from . models import Todo
 from . serializers import TodoSerializers
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 class TodoView(APIView):
@@ -28,9 +29,9 @@ class TodoView(APIView):
 
 class TodoDetail(APIView):
 
-    def get(request,self,id):
+    def get(self,request,id):
         try:
-            todo = Todo.objects.get(id=id)
+            todo = get_object_or_404(Todo,id=id)
             serializers = TodoSerializers(todo)
             return Response(serializers.data,status=status.HTTP_200_OK)
 
@@ -40,11 +41,11 @@ class TodoDetail(APIView):
 
     def put(self,request,id):
         try:
-            todo = Todo.objects.get(id=id)
-            serializers = TodoSerializers(todo)
+            todo = get_object_or_404(Todo,id=id)
+            serializers = TodoSerializers(todo,data=request.data)
             if serializers.is_valid():
                 serializers.save()
-                return Response({'message':'Task updated succesfully'}, status=status.HTTP_201_CREATED)
+                return Response({'message':'Task updated succesSfully'}, status=status.HTTP_201_CREATED)
             return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
 
         except Exception as e:
@@ -56,7 +57,7 @@ class TodoDetail(APIView):
         try:
             todo = Todo.objects.get(id=id)
             del todo
-            return Response({'message':f'{todo.title} was deleted successufully'})
+            return Response({'message':f'{todo.title} was deleted successfully'})
 
         except Exception as e:
             return Response({'Error':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
