@@ -41,7 +41,7 @@ class TodoDetail(APIView):
 
     def put(self,request,id):
         try:
-            todo = get_object_or_404(Todo,id=id)
+            todo = get_object_or_404(Todo,id=id,partials=True)
             serializers = TodoSerializers(todo,data=request.data)
             if serializers.is_valid():
                 serializers.save()
