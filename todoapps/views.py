@@ -41,8 +41,8 @@ class TodoDetail(APIView):
 
     def put(self,request,id):
         try:
-            todo = get_object_or_404(Todo,id=id,partials=True)
-            serializers = TodoSerializers(todo,data=request.data)
+            todo = get_object_or_404(Todo,id=id)
+            serializers = TodoSerializers(todo,data=request.data,partial=True)
             if serializers.is_valid():
                 serializers.save()
                 return Response({'message':'Task updated succesSfully'}, status=status.HTTP_201_CREATED)
